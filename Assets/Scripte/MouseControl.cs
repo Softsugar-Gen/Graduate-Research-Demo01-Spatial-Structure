@@ -9,7 +9,7 @@ public class MouseControl : MonoBehaviour
     public LayerMask floorMask;
 
     //测试用prefabs
-    public GameObject chair;
+    public GameObject furniture;
 
     GameObject currentFurniture;
     GameObject trueFurniture;
@@ -23,39 +23,21 @@ public class MouseControl : MonoBehaviour
         mousePos = Input.mousePosition;
         Ray ray = cam.ScreenPointToRay(mousePos);
 
-        //如果鼠标在floor物体中进行移动,且并没有选中的物品
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, floorMask))
+        if (currentFurniture != null)
         {
-            //当鼠标在地板位置按下后，生成模型。反之不生成
-            if (Input.GetMouseButtonDown(0))
+            currentFurniture.transform.position = hit.point;
+            if (Input.GetMouseButtonDown(1))
             {
-                //如果击中了floor物体
-                if (hit.collider.CompareTag("Floor"))
-                {
-                    //保存一个可以拖动的物体
-                    currentFurniture = Instantiate(chair, hit.point, Quaternion.identity);
-
-                    //点击的三维坐标轴
-                    Debug.Log(hit.point);
-                }
-                else
-                {
-                    return;
-                }
+                trueFurniture = Instantiate(furniture, hit.point, Quaternion.identity);
+                Destroy(currentFurniture);
             }
-
-            //如果已经点击并生成了物体，才移动物体，并且销毁手上的
-            if (currentFurniture != null)
-            {
-                currentFurniture.transform.position = hit.point;
-                if (Input.GetMouseButtonDown(1))
-                {
-                    trueFurniture = Instantiate(chair, hit.point, Quaternion.identity);
-                    Destroy(currentFurniture);
-                }
-            }
-
         }
+        Physics.Raycast(ray, out hit, Mathf.Infinity, floorMask);
+    }
+    public void SetFurniture(GameObject furniturePrefab)
+    {
+        furniture = furniturePrefab;
+        currentFurniture = Instantiate(furniture, hit.point, Quaternion.identity);
     }
 }
 
