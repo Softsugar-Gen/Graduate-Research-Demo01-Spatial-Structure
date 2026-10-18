@@ -8,7 +8,7 @@ public class RoomSizeControl : MonoBehaviour
     public Slider vert_Slide;
 
     //游戏里的地板和底部方块
-    public GameObject ground;
+    //public GameObject ground;
     public GameObject floor;
 
     //游戏里的墙壁
@@ -36,8 +36,8 @@ public class RoomSizeControl : MonoBehaviour
         pastVert_value = vert_Slide.value;
 
         //计算地板和底部方块的距离
-        distX = ground.transform.localScale.x - floor.transform.localScale.x;
-        distZ = ground.transform.localScale.z - floor.transform.localScale.z;
+        //distX = ground.transform.localScale.x - floor.transform.localScale.x;
+        //distZ = ground.transform.localScale.z - floor.transform.localScale.z;
     }
 
     public void SizeControl()
@@ -50,7 +50,7 @@ public class RoomSizeControl : MonoBehaviour
 
         //实际调整数值
         floor.transform.localScale = new Vector3(horiz_value, floor.transform.localScale.y, vert_value);
-        ground.transform.localScale = new Vector3(horiz_value + distX, ground.transform.localScale.y, vert_value + distZ);
+        //ground.transform.localScale = new Vector3(horiz_value + distX, ground.transform.localScale.y, vert_value + distZ);
 
         //调整墙壁位置大小
         //斜右向内收缩

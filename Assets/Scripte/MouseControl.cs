@@ -7,6 +7,7 @@ public class MouseControl : MonoBehaviour
     RaycastHit hit;
 
     public LayerMask floorMask;
+    public LayerMask groundMask;
 
     //测试用prefabs
     public GameObject furniture;
@@ -23,16 +24,19 @@ public class MouseControl : MonoBehaviour
         mousePos = Input.mousePosition;
         Ray ray = cam.ScreenPointToRay(mousePos);
 
-        if (currentFurniture != null)
+       if(Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            currentFurniture.transform.position = hit.point;
-            if (Input.GetMouseButtonDown(1))
+            if (currentFurniture != null)
             {
-                trueFurniture = Instantiate(furniture, hit.point, Quaternion.identity);
-                Destroy(currentFurniture);
+                currentFurniture.transform.position = hit.point;
+
+                if (Input.GetMouseButtonDown(0) && hit.collider.CompareTag("Floor"))
+                {
+                    trueFurniture = Instantiate(furniture, hit.point, Quaternion.identity);
+                    Destroy(currentFurniture);
+                }
             }
         }
-        Physics.Raycast(ray, out hit, Mathf.Infinity, floorMask);
     }
     public void SetFurniture(GameObject furniturePrefab)
     {
